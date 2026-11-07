@@ -1,0 +1,72 @@
+[
+  {
+    "path": "DATA/Alessandro Tesi/Tesi-main/Secondo_Esperimento/Baselines/EvaluationExpertMNLI/EvaluationExpertMNLI.ipynb",
+    "source_sha256": "fb8f31c2fb3f73125d9c0912fce77a1cb54d50f2a7af5008b84a1b446e77bf72",
+    "absolute_path_replacements": 4,
+    "original_cells": 15,
+    "merged_mode": null
+  },
+  {
+    "path": "DATA/Alessandro Tesi/Tesi-main/Secondo_Esperimento/Baselines/EvaluationExpertMultitaskBert/EvaluationExpertMultitaskBert.ipynb",
+    "source_sha256": "e9d8a3e79351f8f5c7f4204aa6bc754dcd946c80767cf40225034b301c657908",
+    "absolute_path_replacements": 4,
+    "original_cells": 14,
+    "merged_mode": null
+  },
+  {
+    "path": "DATA/Alessandro Tesi/Tesi-main/Secondo_Esperimento/Baselines/EvaluationExpertSST/EvaluationExpertSST.ipynb",
+    "source_sha256": "703b2f289d570c86e3fe5f3fe3dce93f35a620cd3c029603fb857be5957e9142",
+    "absolute_path_replacements": 4,
+    "original_cells": 15,
+    "merged_mode": null
+  },
+  {
+    "path": "DATA/Alessandro Tesi/Tesi-main/Secondo_Esperimento/Baselines/EvaluationExpertWeigthAveraging/EvaluationExpertWeigthAveraging.ipynb",
+    "source_sha256": "c26764dbdee258e91dbcbfc5487005907d8c615faa8e5360a42f00f4ca5da995",
+    "absolute_path_replacements": 5,
+    "original_cells": 15,
+    "merged_mode": null
+  },
+  {
+    "path": "DATA/Alessandro Tesi/Tesi-main/Secondo_Esperimento/Baselines/ExperimentalAnalysis/RouterPolicyAnalysis.ipynb",
+    "source_sha256": "9800b8bb503d69537c11902e851eb5774a42fbbe9d90d498b38ea542642c1e50",
+    "absolute_path_replacements": 0,
+    "original_cells": 11,
+    "merged_mode": null
+  },
+  {
+    "path": "DATA/Alessandro Tesi/Tesi-main/Secondo_Esperimento/Baselines/RoutedModel/RoutedModel.ipynb",
+    "source_sha256": "7bc7760eb3a65402776f67df19157b5d910a7b79a5c916d6d965487bdffb27d6",
+    "absolute_path_replacements": 1,
+    "original_cells": 21,
+    "merged_mode": [
+      "impose"
+    ]
+  },
+  {
+    "path": "DATA/Alessandro Tesi/Tesi-main/Secondo_Esperimento/Baselines/TrainingOfUncasedModel/TrainingExpertMNLI.ipynb",
+    "source_sha256": "d6d52e74db25ad0a9c0172fe25b9afab84e05c727d689c3995dbe1b45e91be16",
+    "absolute_path_replacements": 3,
+    "original_cells": 11,
+    "merged_mode": null
+  },
+  {
+    "path": "DATA/Alessandro Tesi/Tesi-main/Secondo_Esperimento/Baselines/TrainingOfUncasedModel/TrainingExpertSST.ipynb",
+    "source_sha256": "cfe44693ba1dc54302071856c48a15357b925c1dd4f1d4aaad1acbf8ce2abed4",
+    "absolute_path_replacements": 3,
+    "original_cells": 11,
+    "merged_mode": null
+  },
+  {
+    "path": "DATA/Alessandro Tesi/Tesi-main/Secondo_Esperimento/Preprocessing/Preprocessing.ipynb",
+    "source_sha256": "b8c22bd9a1e33b2c957923154117fe87aab3baff3a0ffafdcfeab1721fc2a50e",
+    "absolute_path_replacements": 3,
+    "original_cells": 11,
+    "merged_mode": null
+  },
+  {
+    "path": "DATA/Alessandro Tesi/Tesi-main/Secondo_Esperimento/Baselines/classifier.py",
+    "source_sha256": "dd461a2d40c312a92cbef4620c2f0c63bcce40b12981ce92a8f220029d192364",
+    "absolute_path_replacements": 0
+  }
+]

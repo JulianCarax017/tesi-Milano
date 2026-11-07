@@ -1,4 +1,4 @@
-# Credentials and local access settings
+# Credentials and local access instructions
 .env
 .env.*
 !.env.example
@@ -8,7 +8,7 @@
 .aws/
 Istruzioni.txt
 
-# Python and Jupyter
+# Python / notebook state
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
@@ -16,11 +16,14 @@ __pycache__/
 venv/
 .pytest_cache/
 
-# Generated datasets and model artifacts
-**/ProcessedDB/
+# Datasets, weights, caches, generated results
+**/Dataset/
 **/Models/
 **/Results/
 **/Risultati/
+**/hf_cache/
+**/tmp/
+**/.cache/
 *.parquet
 *.arrow
 *.pt
@@ -28,22 +31,21 @@ venv/
 *.ckpt
 *.safetensors
 pytorch_model*.bin
-
-# Raw traces and temporary experiment files
 *.jsonl
 *.partial
 *.log
 .execution.lock
 quality_cost_archive.json
+output.txt
 
-# Local backups
+# Local backups and archives
 *_pre_ablazione_*.ipynb
 *.bak
-
-# Local paper collection
+*.zip
+*.tar.gz
 /Paper/
 
-# LaTeX build artifacts
+# Generated LaTeX files
 *.aux
 *.bbl
 *.bcf
@@ -57,7 +59,7 @@ quality_cost_archive.json
 *.synctex.gz
 *.toc
 
-# Operating system files
+# OS files
 .DS_Store
 Thumbs.db
 Desktop.ini

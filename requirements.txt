@@ -1,0 +1,14 @@
+# Versions reported by the researcher from the experiment environment.
+# Python 3.13.5; Linux x86_64. Not a full transitive lockfile.
+# Use the appropriate PyTorch CUDA package source; see README.
+torch==2.11.0
+transformers==5.8.0
+tokenizers==0.22.2
+huggingface-hub==1.11.0
+datasets==4.8.4
+numpy==2.4.4
+pandas==3.0.2
+pyarrow==23.0.1
+scikit-learn==1.8.0
+matplotlib==3.11.2
+tqdm==4.67.1
