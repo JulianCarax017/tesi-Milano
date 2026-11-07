@@ -1,0 +1,63 @@
+# Credentials and local access settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.ssh/
+.aws/
+Istruzioni.txt
+
+# Python and Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.pytest_cache/
+
+# Generated datasets and model artifacts
+**/ProcessedDB/
+**/Models/
+**/Results/
+**/Risultati/
+*.parquet
+*.arrow
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+pytorch_model*.bin
+
+# Raw traces and temporary experiment files
+*.jsonl
+*.partial
+*.log
+.execution.lock
+quality_cost_archive.json
+
+# Local backups
+*_pre_ablazione_*.ipynb
+*.bak
+
+# Local paper collection
+/Paper/
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
