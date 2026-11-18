@@ -63,3 +63,6 @@ output.txt
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Launcher logs, executed notebooks and session-local kernel specifications.
+.reproduction/
