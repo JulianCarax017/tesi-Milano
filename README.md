@@ -2,6 +2,9 @@
 
 Research notebooks for adaptive layer routing across frozen BERT experts on binary sentiment classification and three-class natural language inference. The routed model selects expert layers or skips encoder computation. The repository also contains preprocessing, expert training, baseline evaluation, and routing-policy analysis.
 
+Start with the [reproduction guide](docs/REPRODUCIBILITY.md) to choose a workflow,
+understand its prerequisites, and interpret missing or reused comparisons.
+
 ## Repository layout
 
 The original directory hierarchy is preserved. `DATA` inside this repository is a **relative folder**, not the filesystem root `/DATA`.
@@ -85,7 +88,11 @@ The preprocessing notebook selects 25,000 examples per task and creates stratifi
 
 ## Workflow and prerequisites
 
-Execute notebooks in cell order only in the intended experiment environment. Some notebooks train models; others also perform new inference. This preparation does not launch any of them.
+Execute notebooks in cell order only in the intended experiment environment. Some notebooks train models; others also perform new inference.
+
+The table below describes **manual notebook defaults**. Launcher `full` mode enables
+baseline training and cross-task head training automatically. See the
+[workflow guide](docs/REPRODUCIBILITY.md#choose-by-the-result-you-need) before choosing a mode.
 
 | Stage | Notebook(s) | Required artifacts / behavior |
 | --- | --- | --- |
@@ -101,90 +108,80 @@ Execute notebooks in cell order only in the intended experiment environment. Som
 
 ### Automated notebook launcher
 
-The launcher executes the existing notebooks, one at a time, in fresh kernels. It
-does not contain another implementation of preprocessing, models, losses or metrics.
-Run it from the Python environment prepared above:
+Run the launcher from the configured Python environment:
 
 ```bash
 python scripts/reproduce.py
 ```
 
-With an interactive terminal it asks which workflow to run and whether to use
-four or eight RoutedModel epochs. The main reference uses eight epochs; the shorter
-alternative uses four. Both default to `merged=impose` and the existing three
-training seeds `(42, 43, 44)`. Expert and baseline training budgets are unchanged.
-Before execution it prints the plan and asks for confirmation; `--yes` confirms an
-unattended invocation. The launcher does not install packages automatically.
+The interactive menu selects a workflow and, for training, four or eight
+RoutedModel epochs. It prints the plan and asks for confirmation. It executes the
+existing notebooks sequentially in fresh kernels, without duplicating their
+experimental code.
 
-Inspect a plan without executing notebooks, importing ML packages, or creating output folders:
+**The modes do different work, not just different amounts of the same work:**
+
+| Mode | Use it when | What it produces / reuses |
+| --- | --- | --- |
+| `full` | Starting from a fresh clone or preparing an independent reproduction. | Creates data splits, trains the specialists and comparison models, evaluates them, then trains RoutedModel and builds its analysis. Requires CUDA. |
+| `routed` | Prepared splits and original specialists already exist and should remain fixed. | Trains a new router and two new heads across three seeds, then analyses that run. It does **not** prepare data or train multitask/weight averaging. Requires CUDA. |
+| `report` | A completed three-seed run already exists. | Rebuilds its HTML analysis using saved results and cached comparisons by default. It does **not** train models or run new inference by default; CUDA is optional unless new measurements are requested. |
+
+**A completed `routed` or `report` workflow can still lack multitask or
+weight-averaging comparisons if their compatible reports are missing.** These
+modes do not recreate those reports. Likewise, a missing cached simple-baseline
+comparison can remain unavailable in a default report-only run.
 
 ```bash
+# Inspect the complete plan without running notebooks or creating outputs.
 python scripts/reproduce.py --mode full --epochs 8 --dry-run
-```
 
-The three workflows are:
-
-| Mode | What runs |
-| --- | --- |
-| `full` | Preprocessing; training both experts; expert evaluations including cross-task head training; multitask and weight-averaging training/evaluation; RoutedModel; routing analysis and simple-baseline comparisons. |
-| `routed` | RoutedModel and its analysis, using already prepared parquet splits and original expert checkpoints. Existing multitask/weight-averaging reports are reused when available; missing reports remain unavailable in the analysis. |
-| `report` | Analysis of the explicitly selected completed run, using saved measurements by default. It does not train models. Missing cached simple-baseline comparisons are reported as unavailable. |
-
-Examples (execution starts only after confirmation, unless `--yes` is supplied):
-
-```bash
-# Complete reproduction from source; trains the models.
+# Prepare and execute the complete workflow; this trains the models.
 python scripts/reproduce.py --mode full --epochs 8
 
-# Separate shorter RoutedModel training with the existing data and specialists.
+# Reuse that same preparation for a separate four-epoch RoutedModel experiment.
 python scripts/reproduce.py --mode routed --epochs 4
 
-# Existing run: replace the timestamp with its actual directory name.
+# Rebuild an existing report; replace the illustrative run ID.
 python scripts/reproduce.py --mode report --run-id 20261118_120000_000001
 
-# Also calculate missing simple-baseline measurements for that report on the GPU.
+# Also allow missing simple-baseline inference for that report on the GPU.
 python scripts/reproduce.py --mode report --run-id 20261118_120000_000001 --measure-baselines
 ```
 
-`full` and `routed` require a CUDA GPU and include new baseline inference during
-analysis. Default `report` mode needs the notebook/runtime dependencies but does
-not require CUDA. Notebook kernels use the same Python executable as the launcher:
-a session-local kernel specification avoids accidentally selecting another installed
-Python environment.
+`--measure-baselines` concerns **static layer removal, random routing and early
+exit**. It does not train multitask, train weight averaging, regenerate their
+reports, or train cross-task heads. Full/routed analysis already allows these
+simple-baseline measurements and can reuse compatible cached results.
 
-Use `--project-root "/path/to/Tesi-main"` to select an artifact tree. Alternatively,
-the launcher respects `TESI_PROJECT_ROOT`. Full mode can create a new tree containing
-`Secondo_Esperimento`. It can replace existing processed splits, specialist exports
-and baseline outputs at the chosen root, so use a separate root for a fresh
-reproduction or choose `routed` when reusing the original preparation.
+Both training budgets default to `merged=impose` and seeds `(42, 43, 44)`.
+`--epochs` changes RoutedModel only. Four epochs are a separate training with
+adapted schedules, not the fourth checkpoint of an eight-epoch run. To compare
+budgets while retaining the same specialists and splits, run `routed` after the
+first preparation rather than running `full` again.
 
-Each new RoutedModel invocation starts a new timestamp group instead of implicitly
-resuming the latest unfinished experiment. To resume an incomplete run created with
-the new options, select its ID and the same configuration explicitly:
+Use `--project-root "/path/to/Tesi-main"` or `TESI_PROJECT_ROOT` to select the
+artifact tree. The root contains `Secondo_Esperimento`. Full mode can create a
+new tree and can replace existing preparation/model outputs at the chosen root;
+use a separate root for an independent reproduction.
+
+New training starts a new timestamp group. Resume a compatible incomplete routed
+group explicitly with the same options:
 
 ```bash
 python scripts/reproduce.py --mode routed --epochs 4 --resume 20261118_120000_000001
 ```
 
-The stored epochs, merged mode and seeds must match before any completed seeds are
-skipped. Existing dataset/expert/checkpoint identity checks remain in the notebook.
-Legacy runs without recorded `run_options` are not accepted by launcher resume;
-use their original compatible notebook/environment for manual recovery.
+The launcher links the report to the exact requested/new run and requires all
+three completed seeds. It saves logs, executed notebooks and a source/configuration
+record under `.reproduction/<launch timestamp>/`, excluded from Git. Model/data
+artifacts and the HTML report remain in the selected project tree.
 
-The report is linked to the exact run returned by RoutedModel, not whichever run
-happens to be newest. All three completed seeds are required. If the notebook
-records a simple-baseline measurement failure, the launcher marks the workflow as
-failed even if a partial HTML report was written.
-
-Logs, executed notebooks (including partial outputs on cell failure), and an
-execution record including source hashes are saved under `.reproduction/<timestamp>/`. Actual model/data
-artifacts and reports stay in the configured experiment tree. All are local outputs
-excluded from Git. `--output-root` changes the launch-log directory. The log shows
-cell start/completion; the executed notebook contains its captured cell output.
-After an error the remaining stages are not launched.
-
-The advanced `--merged-mode off` and `--merged-mode auto` options run the other
-documented eight-epoch ablations. They are not selected by the simple 4/8 menu.
+See the [complete reproduction guide](docs/REPRODUCIBILITY.md) for required files,
+report completeness, source of reused comparisons, all options, resume/recovery
+rules, and how to check whether an output answers the intended question.
+Use `--yes` to skip the final execution confirmation in unattended invocations.
+The launcher does not install packages.
 
 ### Manual notebook execution and parameters
 

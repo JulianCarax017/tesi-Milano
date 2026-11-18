@@ -1,5 +1,10 @@
 # Publication preparation
 
+This page records the initial preparation dated 7 November 2026. It is historical
+provenance, not the current launcher instructions. For current workflows, required
+artifacts and the meaning of each mode, use the [reproduction guide](REPRODUCIBILITY.md).
+For the later launcher checks, see [validation](VALIDATION.md#launcher-validation--18-november-2026).
+
 Prepared on 7 November 2026 from the ten selected source files supplied by the researcher. Original files are preserved outside the publication folder.
 
 Changes:
